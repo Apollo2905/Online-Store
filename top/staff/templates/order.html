@@ -1,0 +1,81 @@
+{% extends 'admin_layout.html' %}
+
+{% block content %}
+    <div class="section">
+        <div class="container">
+            <div class="title has-text-centered">
+                Заказ №{{ order.pk }}
+            </div>
+            <div class="columns is-centered is-vcentered">
+                <div class="column is-7">
+                    <div class="box">
+                        <table class="table is-fullwidth">
+                            <thead>
+                            <tr>
+                                <th>Имя товара</th>
+                                <th>Кол-во</th>
+                                <th>Общая сумма</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for product in order.order_products.all %}
+                                <tr>
+                                    <td>{{ product }}</td>
+                                    <td>{{ product.amount }} шт.</td>
+                                    <td>{{ product.total }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <td colspan="3" class="has-text-right has-text-weight-bold">
+                                    Общая сумма: {{ order.total_price }} dollars
+                                </td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="box">
+                        <div class="title is-3">
+                            Информация о покупателе
+                        </div>
+                        <div class="title is-4">
+                            <ion-icon name="person" class="mr-4"></ion-icon>
+                            {{ order.customer.username }}
+                        </div>
+                        <div class="title is-4">
+                            <ion-icon name="home" class="mr-4"></ion-icon>
+                            {{ order.address }}
+                        </div>
+                        <div class="title is-4">
+                            <ion-icon name="call" class="mr-4"></ion-icon>
+                            {{ order.phone }}
+                        </div>
+                        <div class="title is-4">
+                            <ion-icon name="information-circle"></ion-icon>
+                            {% if order.status %}
+                                {{ order.status }}
+                            {% else %}
+                                Статус не выбран
+                            {% endif %}
+                        </div>
+                        <div class="title is-6 has-text-grey">
+                            <ion-icon name="chatbox-outline"></ion-icon>
+                            {% if order.comment %}
+                                {{ order.comment }}
+                            {% else %}
+                                Пусто
+                            {% endif %}
+                        </div>
+                        {% if order.status == 'Создан' or if order.status == 'Принят' or if order.status == 'В сборке' %}
+                        <a href="{% url 'staff:order_edit' order.pk %}" class="button is-fullwidth">
+                            Отредактировать заказ
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

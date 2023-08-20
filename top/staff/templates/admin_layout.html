@@ -1,0 +1,36 @@
+{% load static from static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'static/bulma.css' %}">
+    <link rel="stylesheet" href="{% static 'static/style.css' %}">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+<nav class="navbar">
+    <div class="navbar-brand">
+        <a href="{% url 'staff:home' %}" class="navbar-item">
+            <ion-icon name="person-outline"></ion-icon>
+        </a>
+    </div>
+    <div class="navbar-menu">
+        <div class="navbar-start">
+            <a href="{% url 'store:home' %}" class="navbar-item">
+                Страница магазина
+            </a>
+        </div>
+        <div class="navbar-end">
+            <a href="{% url 'users:sign_out' %}" class="navbar-item">
+                Выйти
+            </a>
+        </div>
+    </div>
+</nav>
+{% block content %}
+{% endblock %}
+</body>
+</html>

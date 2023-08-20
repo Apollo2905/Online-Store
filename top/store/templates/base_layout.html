@@ -1,0 +1,95 @@
+{% load static from static %}
+{% load category %}
+{% load brand %}
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store</title>
+    <link rel="stylesheet" href="{% static 'static/bulma.css' %}">
+    <link rel="stylesheet" href="{% static 'static/style.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/css/bulma-carousel.min.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="{% static 'static/script.js' %}" defer></script>
+</head>
+
+<body>
+<nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="{% url 'store:home' %}">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/DotShop_gTLD_logo.svg/2560px-DotShop_gTLD_logo.svg.png"
+                 width="100" height="40">
+        </a>
+
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+           data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+            {% brands %}
+        </div>
+        {% csrf_token %}
+        <div class="navbar-end">
+
+            {% if user.is_authenticated %}
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <div class="navbar-link">
+                        {{ user }}
+                    </div>
+                    <div class="navbar-dropdown">
+                        <a href="{% url 'users:edit_profile' %}" class="navbar-item">
+                            Редактировать <br> профиль
+                        </a>
+                        <a href="{% url 'users:reset_password' %}" class="navbar-item">Изменить пароль</a>
+                        <a href="{% url 'store:favourite' %}" class="navbar-item"> Избранное</a>
+                        <a href="{% url 'store:orders' %}" class="navbar-item">Мои заказы</a>
+                        <a href="{% url 'users:sign_out' %}" class="navbar-item has-text-danger">
+                            Выйти
+                        </a>
+                    </div>
+                </div>
+            {% else %}
+                <a href="{% url 'users:sign_in' %}" class="navbar-item">
+                    <button class="button">Войти</button>
+                </a>
+            {% endif %}
+            <a class="navbar-item has-text-info is-size-3" href="{% url 'store:cart' %}">
+                <ion-icon name="cart-outline"></ion-icon>
+                <span class="is-size-6">{{ amount }}</span>
+            </a>
+
+        </div>
+    </div>
+</nav>
+
+<div class="hero-body">
+    {% block auth %}
+    {% endblock %}
+
+    {% block slider %}
+    {% endblock %}
+
+    {% block content %}
+    {% endblock %}
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/js/bulma-carousel.min.js"></script>
+<script>
+    bulmaCarousel.attach('#carousel-demo', {
+        slidesToScroll: 1,
+        slidesToShow: 1,
+        infinite: true,
+        autoplay: true,
+        autoplaySpeed: 1000,
+    })
+</script>
+</body>
+</html>

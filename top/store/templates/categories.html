@@ -1,0 +1,16 @@
+<aside class="menu has-background-info-light p-3" style="min-height: 100%; border-radius: 10px;">
+    <div class="menu-label">
+        <div class="title">
+            Категории
+        </div>
+    </div>
+    <ul class="menu-list">
+        {% for category in categories %}
+        <li>
+            <a href="{% url 'store:home' %}?category={{category.pk}}">
+                {{category}}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</aside>

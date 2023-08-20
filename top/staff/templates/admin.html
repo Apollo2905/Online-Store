@@ -1,0 +1,32 @@
+{% extends 'admin_layout.html' %}
+{% block content %}
+    <section class="section">
+        <div class="container has-text-centered">
+            <div class="title">Заказы</div>
+            <div class="columns is-multiline is-centered">
+                {% for order in orders %}
+                    <div class="column is-3 is-centered">
+                        <div class="box">
+                            <div class="title is-5 has-text-centered">
+                                Заказ №{{ order.pk }}
+                                <span class="tag is-medium is-success">
+                                    {{ order.status }}
+                                </span>
+                            </div>
+                            <div class="subtitle">
+                                Покупатель:
+                                <span class="is-italic has-text-weight-bold">
+                                {{ order.customer }}
+                            </span>
+                            </div>
+                            <a href="{% url 'staff:order' order.pk %}" class="button is-fullwidth">
+                                Перейти
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        </div>
+    </section>
+{% endblock %}

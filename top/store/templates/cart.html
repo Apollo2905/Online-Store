@@ -1,0 +1,138 @@
+{% extends 'base_layout.html' %}
+
+
+{% block content %}
+    <div class="section">
+
+        <div class="container">
+            {% if cart_items %}
+                <div class="columns">
+                    <div class="column is-8">
+                        <div class="modal">
+                            <div class="modal-background" onclick="toggleModal()"></div>
+                            <div class="modal-content">
+                                <div class="box has-text-centered">
+                                    <div class="title">
+                                        Подтвердите удаление
+                                    </div>
+                                    <a href="{% url 'store:cart' %}?action=delete"
+                                       class="button is-success">Подтвердить</a>
+                                    <button class="button is-danger" onclick="toggleModal()">Отмена</button>
+                                </div>
+                            </div>
+                            <div class="modal-close is-large" onclick="toggleModal()"></div>
+                        </div>
+                        <div class="box">
+                            <div class="buttons">
+                                {% if chosen_items.count != cart_items.count %}
+                                    <a href="{% url 'store:cart' %}?action=choose_all" class="button is-warning">Выбрать
+                                        всё</a>
+                                {% else %}
+                                    <a href="{% url 'store:cart' %}?action=remove_chosen" class="button is-warning">Убрать
+                                        выбор</a>
+                                    <a href="{% url 'store:cart' %}?action=delete_all" class="button is-danger">Удалить
+                                        всё</a>
+                                {% endif %}
+                            </div>
+                            {% for item in cart_items %}
+                                <div class="columns">
+                                    <div class="column is-1 is-vcentered">
+                                        {% if item.chosen %}
+                                            <a href="{% url 'store:cart' %}?action=remove_chosen&pk={{ item.pk }}">
+                                                <ion-icon name="checkbox-outline"></ion-icon>
+                                            </a>
+                                        {% else %}
+                                            <a href="{% url 'store:cart' %}?action=add_chosen&pk={{ item.pk }}">
+                                                <ion-icon name="square-outline"></ion-icon>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                    <div class="column is-2">
+                                        <figure class="image is-128x128">
+                                            <img src="{{ item.product.image.url }}">
+                                        </figure>
+                                    </div>
+                                    <div class="column is-4">
+                                        <div class="title is-3">{{ item.product.name }}</div>
+                                        <div class="subtitle is-7 has-text-gray">
+                                            {{ item.product.category }}
+                                        </div>
+                                        <div class="buttons">
+                                            {% if user not in item.product.favourite.all %}
+                                                <a href="{% url 'store:cart' %}?action=favourite&product={{ item.product.pk }}"
+                                                   class="button">
+                                                    <ion-icon name="heart-outline"></ion-icon>
+                                                </a>
+                                            {% else %}
+                                                <a href="{% url 'store:cart' %}?action=favourite&product={{ item.product.pk }}"
+                                                   class="button is-link">
+                                                    <ion-icon name="heart-outline"></ion-icon>
+                                                </a>
+                                            {% endif %}
+                                            <button data-pk="{{ item.pk }}" onclick="deleteItem(this.dataset.pk)"
+                                                    class="button is-danger">Удалить
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="column is-2">
+                                        {{ item.total_price }} $
+                                    </div>
+                                    <div class="column">
+                                        <div class="field has-addons">
+                                            <div class="control">
+                                                <a href="{% url 'store:cart' %}?action=decrement&pk={{ item.pk }}"
+                                                   class="button" {% if item.quantity == 1 %} disabled {% endif %}>
+                                                    <span class="title is-3">-</span>
+                                                </a>
+                                            </div>
+                                            <div class="control">
+                                                <button class="button" disabled>
+                                                    {{ item.quantity }}
+                                                </button>
+                                            </div>
+                                            <div class="control">
+                                                <a href="{% url 'store:cart' %}?action=increment&pk={{ item.pk }}"
+                                                   class="button">
+                                                    <span class="title is-4">+</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                    <div class="column">
+                        <div class="box">
+                            {% if chosen_items %}
+                                <a class="button is-success is-fullwidth" href="{% url 'store:create_order' %}">
+                                    Перейти к оформлению
+                                </a>
+                            {% endif %}
+                            <hr>
+                            <div class="block">
+                                <div class="title is-5">Ваши товары</div>
+                                <div class="subtitle is-6 is-flex is-justify-content-space-between">
+                                    <span>Товары (общее кол-во товаров)</span>
+                                    <span>{{ total_quantity }}</span>
+                                </div>
+                                <hr>
+                                <div class="title is-5 is is-flex is-justify-content-space-between">
+                                    <span>Общая сумма</span>
+                                    <span>{{ total_sum }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            {% else %}
+                <div class="title has-text-centered">
+                    Ваша корзина пуста
+                </div>
+            {% endif %}
+    </div>
+
+{% endblock %}
