@@ -69,10 +69,9 @@
                                 Пусто
                             {% endif %}
                         </div>
-                        {% if order.status == 'Создан' or if order.status == 'Принят' or if order.status == 'В сборке' %}
-                        <a href="{% url 'staff:order_edit' order.pk %}" class="button is-fullwidth">
-                            Отредактировать заказ
-                        </a>
+                            <a href="{% url 'staff:order_edit' order.pk %}" class="button is-fullwidth">
+                                Отредактировать заказ
+                            </a>
                     </div>
                 </div>
             </div>

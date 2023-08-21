@@ -1,0 +1,44 @@
+{% extends 'admin_layout.html' %}
+
+{% block content %}
+    <section class="section">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-5">
+                    <div class="box">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            {% for field in form %}
+
+                                {% if field.name == 'status' %}
+                                    <div class="select is-fullwidth">
+                                        {{ field }}
+                                    </div>
+                                {% else %}
+
+                                    <div class="field">
+                                        <label for="{{ field.id_for_label }}" class="label">
+                                            {{ field.label }}
+                                        </label>
+                                        <div class="control">
+                                            {% if order.status not in allowed_status %}
+                                                <input type="text" name="address" value="{{ field.value }}" readonly
+                                                       class="input" required id="id_address">
+                                            {% else %}
+                                                {{ field }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                            {% endfor %}
+                            <button class="button is-success my-4">
+                                Okay
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
