@@ -9,5 +9,6 @@ urlpatterns = [
     path('create_order/', views.create_order, name='create_order'),
     path('favourite/', views.favourite_page, name='favourite'),
     path('orders/', views.orders, name='orders'),
+    path('order_cancel/<int:pk>', views.order_cancel, name='order_cancel'),
 
 ]

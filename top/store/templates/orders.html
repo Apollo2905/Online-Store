@@ -31,6 +31,10 @@
                                     Принят
                                 </span>
                                 </td>
+                                <td>
+                                    <a class="button is-danger" href="{% url 'store:order_cancel' order.pk %}">Отменить
+                                        заказ</a>
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>

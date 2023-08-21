@@ -1,0 +1,18 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+    <div class="section">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-6">
+                    <div class="box has-text-centered">
+                        <div class="title">
+                            Запрос на отмену заказа {{ order.pk }} был отправлен продавцу
+                        </div>
+                        <a href="{% url 'store:home' %}" class="button is-success is-fullwidth">Вернуться на главную</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

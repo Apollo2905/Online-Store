@@ -1,3 +1,6 @@
 from django.db import models
 
-# Create your models here.
+class CancelRequest(models.Model):
+    order = models.ForeignKey('store.Order', on_delete=models.CASCADE)
+
+

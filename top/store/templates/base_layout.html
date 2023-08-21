@@ -41,6 +41,14 @@
         <div class="navbar-end">
 
             {% if user.is_authenticated %}
+                {% if user.is_staff %}
+                    <span class="navbar-item">
+                    <a href="{% url 'staff:home' %}" class="button is-warning">
+                        Перейти в CRM
+                    </a>
+                    </span>
+                {% endif %}
+
                 <div class="navbar-item has-dropdown is-hoverable">
                     <div class="navbar-link">
                         {{ user }}

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import *
 from .forms import OrderForm, RateForm
 from django.contrib.auth.decorators import login_required
+from staff.models import CancelRequest
 
 
 def home(request):
@@ -212,3 +213,10 @@ def show_amount(request):
         guest=guest if request.user.is_anonymous else None
     )
     return sum([i.quantity for i in cart_items])
+
+
+@login_required(login_url='/users/sign_in/')
+def order_cancel(request, pk):
+    order_data = Order.objects.get(pk=pk)
+    CancelRequest.objects.create(order=order_data)
+    return render(request, 'order_cancel.html', {'order': order_data})

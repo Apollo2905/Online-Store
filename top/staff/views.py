@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
-from store.models import Order
+from store.models import Order, STATUS
 from .forms import OrderEditForm
 
 
 def home(request):
     orders = Order.objects.all()
-    return render(request, 'admin.html', {'orders': orders})
+    status = request.GET.get('status').replace('%20', ' ') if request.GET else None
+    orders = orders.filter(status=status) if status else orders
+    return render(request, 'admin.html', {'orders': orders, 'status': STATUS})
 
 
 def order(request, pk):
