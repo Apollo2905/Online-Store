@@ -31,6 +31,15 @@ def home(request):
 def product(request, pk=None):
     product_data = Product.objects.get(pk=pk)
     action = request.GET.get('action')
+    reviews = Review.objects.filter(product=product_data)
+    filter_by = request.GET.get('filter')
+
+    if filter_by == 'new':
+        reviews = reviews.order_by('-date')
+    elif filter_by == 'best':
+        reviews = reviews.order_by('-rating')
+    elif filter_by == 'worst':
+        reviews = reviews.order_by('rating')
 
     # система отзывов
     form = RateForm(request.POST or None)
@@ -46,7 +55,7 @@ def product(request, pk=None):
         favourite(request, pk)
         return redirect('store:product', pk=pk)
     amount = show_amount(request)
-    return render(request, 'product.html', {'product': product_data, 'form': form, 'amount': amount})
+    return render(request, 'product.html', {'product': product_data, 'form': form, 'amount': amount, 'reviews': reviews})
 
 
 def guest_register(request, pk):
@@ -204,7 +213,7 @@ def orders(request):
 
 
 def show_amount(request):
-    token = request.COOKIES['csrf_token']
+    token = request.COOKIES['csrftoken']
     guest = Guest.objects.filter(token=token).last()
 
     cart_items = CartItem.objects.filter(

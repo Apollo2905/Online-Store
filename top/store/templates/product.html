@@ -116,13 +116,24 @@
                     Отправить
                 </button>
             </form>
-            {% if not product.review_set.all %}
-                <div class="title">Пока нет отзывов</div>
+            {% if not reviews %}
+                <div class="title has-text-centered">Пока нет отзывов</div>
             {% else %}
-                <div class="title">Отзывы других покупателей</div>
+                <div class="buttons is-right">
+                    <a href="{% url 'store:product' product.pk %}?filter=new" class="button is-small is-link">
+                        Сначала новые
+                    </a>
+                    <a href="{% url 'store:product' product.pk %}?filter=best" class="button is-small is-success">
+                        Сначала положительные
+                    </a>
+                    <a href="{% url 'store:product' product.pk %}?filter=worst" class="button is-small is-danger">
+                        Сначала отрицательные
+                    </a>
+                </div>
+                <div class="title has-text-centered">Отзывы других покупателей</div>
                 <div class="container">
                     <div class="columns is-centered is-multiline">
-                        {% for review in product.review_set.all %}
+                        {% for review in reviews %}
                             <div class="column is-4">
                                 <div class="card">
                                     <div class="card-content">

@@ -70,6 +70,18 @@
                                             </a>
                                         {% endif %}
                                     </div>
+                                    {% if user.is_staff %}
+                                        <div class="column">
+                                            <div class="buttons">
+                                                <a class="button is-link is-small">
+                                                    <ion-icon name="create-outline"></ion-icon>
+                                                </a>
+                                                <a class="button is-small is-danger">
+                                                    <ion-icon name="trash-outline"></ion-icon>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
 
