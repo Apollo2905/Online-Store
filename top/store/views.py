@@ -204,7 +204,7 @@ def orders(request):
 
 
 def show_amount(request):
-    token = request.COOKIES['csrftoken']
+    token = request.COOKIES['csrf_token']
     guest = Guest.objects.filter(token=token).last()
 
     cart_items = CartItem.objects.filter(

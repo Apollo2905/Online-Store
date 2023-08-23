@@ -1,0 +1,39 @@
+{% extends 'admin_layout.html' %}
+
+{% block content %}
+    <div class="section">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-6">
+                    <form action="" method="post" class="product-form">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            {% if field.name == 'is_new' or field.name == 'is_discounted' %}
+                                <label for="{{ field.id_for_label }}" class="checkbox">
+                                    {{ field }}
+                                    {{ field.label }}
+                                </label>
+                                <br><br>
+                            {% else %}
+                                <div class="field">
+                                    <label for="{{ field.id_for_label }}" class="label">
+                                        {{ field.label }}
+                                    </label>
+                                    <div class="control">{{ field }}</div>
+                                </div>
+                            {% endif %}
+                            {% if form.errors %}
+                                <ul>
+                                    {% for error in form.errors.values %}
+                                        <li class="has-text-danger">{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        {% endfor %}
+                        <button class="button is-success">Добавить товар</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

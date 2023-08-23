@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from store.models import Order, STATUS
-from .forms import OrderEditForm
+from .forms import OrderEditForm, ProductForm
 
 
 def home(request):
@@ -27,3 +27,11 @@ def order_edit(request, pk):
         form.save()
         return redirect('staff:order', pk=pk)
     return render(request, 'order_edit.html', {'form': form, 'order': order_data, 'allowed_status': allowed_status})
+
+
+def product_create(request):
+    form = ProductForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        form.save()
+        return redirect('store:home')
+    return render(request, 'product_create.html', {'form': form})
