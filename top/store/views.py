@@ -55,7 +55,8 @@ def product(request, pk=None):
         favourite(request, pk)
         return redirect('store:product', pk=pk)
     amount = show_amount(request)
-    return render(request, 'product.html', {'product': product_data, 'form': form, 'amount': amount, 'reviews': reviews})
+    return render(request, 'product.html',
+                  {'product': product_data, 'form': form, 'amount': amount, 'reviews': reviews})
 
 
 def guest_register(request, pk):
@@ -208,8 +209,9 @@ def favourite_page(request):
 @login_required(login_url='/users/sign_in/')
 def orders(request):
     orders_list = Order.objects.filter(customer=request.user)
+    requests = [item.order.pk for item in CancelRequest.objects.all()]
     amount = show_amount(request)
-    return render(request, 'orders.html', {'orders': orders_list, 'amount': amount})
+    return render(request, 'orders.html', {'orders': orders_list, 'amount': amount, 'requests': requests})
 
 
 def show_amount(request):

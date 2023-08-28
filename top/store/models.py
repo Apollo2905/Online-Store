@@ -88,10 +88,11 @@ class Order(models.Model):
     def __str__(self):
         return f"Заказ №{self.pk}"
 
-    # def order_products_list(self):
-    #     return ', '.join(
-    #         [order.product.name for order in self.order_products.all()]
-    #     )
+    def order_products_list(self):
+        return ', '.join(
+            [f'{order.product.name} {order.amount} шт'
+             for order in self.order_products.all()]
+        )
 
 
 class OrderProduct(models.Model):

@@ -9,6 +9,7 @@
                         <div class="title">
                             Запрос на отмену заказа {{ order.pk }} был отправлен продавцу
                         </div>
+                        <a href="{% url 'store:orders' %}" class="button is-success is-fullwidth">Вернуться к заказу</a>
                         <a href="{% url 'store:home' %}" class="button is-success is-fullwidth">Вернуться на главную</a>
                     </div>
                 </div>

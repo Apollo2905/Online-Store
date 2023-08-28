@@ -32,8 +32,11 @@
                                 </span>
                                 </td>
                                 <td>
+                                    {% if order.pk not in requests %}
                                     <a class="button is-danger" href="{% url 'store:order_cancel' order.pk %}">Отменить
-                                        заказ</a>
+                                        заказ
+                                    </a>
+                                    {% endif %}
                                 </td>
                             </tr>
                         {% endfor %}
